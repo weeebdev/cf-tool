@@ -101,7 +101,7 @@ Examples:
                        "a" of contest 100.
   cf pull              Pull the latest codes of current problem into current
                        path.
-  cf clone xalanq      Clone all codes of xalanq.
+  cf clone dianhsu      Clone all codes of dianhsu.
   cf upgrade           Upgrade the "cf" to the latest version from GitHub.
 File:
   cf will save some data in some files:
@@ -111,7 +111,7 @@ File:
 Template:
   You can insert some placeholders into your template code. When generate a code
   from the template, cf will replace all placeholders by following rules:
-  $%U%$   Handle (e.g. xalanq)
+  $%U%$   Handle (e.g. dianhsu)
   $%Y%$   Year   (e.g. 2019)
   $%M%$   Month  (e.g. 04)
   $%D%$   Day    (e.g. 09)
@@ -129,7 +129,7 @@ Script in template:
   need to redirect).
   You can insert some placeholders in your scripts. When execute a script,
   cf will replace all placeholders by following rules:
-  $%path%$   Path to source file (Excluding $%full%$, e.g. "/home/xalanq/")
+  $%path%$   Path to source file (Excluding $%full%$, e.g. "/home/dianhsu/")
   $%full%$   Full name of source file (e.g. "a.cpp")
   $%file%$   Name of source file (Excluding suffix, e.g. "a")
   $%rand%$   Random string with 8 character (including "a-z" "0-9")`

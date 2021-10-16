@@ -62,7 +62,7 @@ func getLatest() (version, note, ptime, url string, size uint, err error) {
 		return
 	}
 
-	resp, err := http.Get("https://api.github.com/repos/xalanq/cf-tool/releases/latest")
+	resp, err := http.Get("https://api.github.com/repos/dianhsu/cf-tool/releases/latest")
 	if err != nil {
 		return
 	}
