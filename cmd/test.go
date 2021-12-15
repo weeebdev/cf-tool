@@ -15,6 +15,7 @@ import (
 
 	"cf-tool/config"
 	"cf-tool/util"
+
 	"github.com/fatih/color"
 	ansi "github.com/k0kubun/go-ansi"
 	"github.com/sergi/go-diff/diffmatchpatch"
@@ -62,8 +63,8 @@ func plain(raw []byte) string {
 }
 
 func judge(sampleID, command string) error {
-	inPath := fmt.Sprintf("in%v.txt", sampleID)
-	ansPath := fmt.Sprintf("ans%v.txt", sampleID)
+	inPath := fmt.Sprintf("testI%v.txt", sampleID)
+	ansPath := fmt.Sprintf("testO%v.txt", sampleID)
 	input, err := os.Open(inPath)
 	if err != nil {
 		return err

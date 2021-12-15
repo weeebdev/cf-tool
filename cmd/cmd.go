@@ -13,6 +13,7 @@ import (
 	"cf-tool/client"
 	"cf-tool/config"
 	"cf-tool/util"
+
 	"github.com/fatih/color"
 )
 
@@ -64,13 +65,13 @@ func getSampleID() (samples []string) {
 	if err != nil {
 		return
 	}
-	reg := regexp.MustCompile(`in(\d+).txt`)
+	reg := regexp.MustCompile(`testI(\d+).txt`)
 	for _, path := range paths {
 		name := path.Name()
 		tmp := reg.FindSubmatch([]byte(name))
 		if tmp != nil {
 			idx := string(tmp[1])
-			ans := fmt.Sprintf("ans%v.txt", idx)
+			ans := fmt.Sprintf("testO%v.txt", idx)
 			if _, err := os.Stat(ans); err == nil {
 				samples = append(samples, idx)
 			}
@@ -101,7 +102,7 @@ func getCode(filename string, templates []config.CodeTemplate) (codes []CodeList
 	if filename != "" {
 		ext := filepath.Ext(filename)
 		if idx, ok := mp[ext]; ok {
-			return []CodeList{CodeList{filename, idx}}, nil
+			return []CodeList{{filename, idx}}, nil
 		}
 		return nil, fmt.Errorf("%v can not match any template. You could add a new template by `cf config`", filename)
 	}
