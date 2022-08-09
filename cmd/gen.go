@@ -3,7 +3,6 @@ package cmd
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -28,7 +27,7 @@ func parseTemplate(source string, cln *client.Client) string {
 }
 
 func readTemplateSource(path string, cln *client.Client) (source string, err error) {
-	b, err := ioutil.ReadFile(path)
+	b, err := os.ReadFile(path)
 	if err != nil {
 		return
 	}
@@ -48,7 +47,7 @@ func gen(source, currentPath, ext string) error {
 		i++
 	}
 
-	err := ioutil.WriteFile(savePath, []byte(source), 0644)
+	err := os.WriteFile(savePath, []byte(source), 0644)
 	if err == nil {
 		color.Green("Generated! See %v", filepath.Base(savePath))
 	}

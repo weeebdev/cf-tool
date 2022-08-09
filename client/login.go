@@ -51,15 +51,15 @@ func findCsrf(body []byte) (string, error) {
 	}
 	return string(tmp[1]), nil
 }
-func AesDecrypt(cipherin []byte, key, iv []byte) ([]byte, error) {
+func AesDecrypt(cipherIn []byte, key, iv []byte) ([]byte, error) {
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, err
 	}
 	blockSize := block.BlockSize()
 	blockMode := cipher.NewCBCDecrypter(block, iv[:blockSize])
-	origData := make([]byte, len(cipherin))
-	blockMode.CryptBlocks(origData, cipherin)
+	origData := make([]byte, len(cipherIn))
+	blockMode.CryptBlocks(origData, cipherIn)
 	return origData, nil
 }
 func addRCPC(c *Client, body []byte) ([]byte, error) {
@@ -71,17 +71,17 @@ func addRCPC(c *Client, body []byte) ([]byte, error) {
 		} else {
 			key, _ := hex.DecodeString(string(out[0][1]))
 			iv, _ := hex.DecodeString(string(out[0][2]))
-			cipherin, _ := hex.DecodeString(string(out[0][3]))
-			cipherout, err := AesDecrypt(cipherin, key, iv)
+			cipherIn, _ := hex.DecodeString(string(out[0][3]))
+			cipherOut, err := AesDecrypt(cipherIn, key, iv)
 			if err != nil {
 				return nil, err
 			}
-			url, err := url.Parse(c.host + "/enter")
+			loginUrl, err := url.Parse(c.host + "/enter")
 			if err != nil {
 				return nil, err
 			}
-			c.client.Jar.SetCookies(url, []*http.Cookie{
-				{Name: "RCPC", Value: hex.EncodeToString(cipherout)},
+			c.client.Jar.SetCookies(loginUrl, []*http.Cookie{
+				{Name: "RCPC", Value: hex.EncodeToString(cipherOut)},
 			})
 			body, err := util.GetBody(c.client, c.host+"/enter")
 			return body, err

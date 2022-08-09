@@ -3,7 +3,7 @@ package config
 import (
 	"bytes"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"os"
 	"path/filepath"
 
@@ -69,13 +69,13 @@ func (c *Config) load() (err error) {
 	}
 	defer file.Close()
 
-	bytes, err := ioutil.ReadAll(file)
+	data, err := io.ReadAll(file)
 
 	if err != nil {
 		return err
 	}
 
-	return json.Unmarshal(bytes, c)
+	return json.Unmarshal(data, c)
 }
 
 // save file to path
@@ -87,7 +87,7 @@ func (c *Config) save() (err error) {
 	err = encoder.Encode(c)
 	if err == nil {
 		os.MkdirAll(filepath.Dir(c.path), os.ModePerm)
-		err = ioutil.WriteFile(c.path, data.Bytes(), 0644)
+		err = os.WriteFile(c.path, data.Bytes(), 0644)
 	}
 	if err != nil {
 		color.Red("Cannot save config to %v\n%v", c.path, err.Error())

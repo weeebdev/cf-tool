@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -67,7 +66,7 @@ func getLatest() (version, note, ptime, url string, size uint, err error) {
 		return
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return
 	}
@@ -147,7 +146,7 @@ func upgrade(url, exePath string, size uint) (err error) {
 	}
 	defer resp.Body.Close()
 
-	data, err := ioutil.ReadAll(io.TeeReader(resp.Body, counter))
+	data, err := io.ReadAll(io.TeeReader(resp.Body, counter))
 	ticker.Stop()
 	counter.Print()
 	fmt.Println()
@@ -163,7 +162,7 @@ func upgrade(url, exePath string, size uint) (err error) {
 	if err != nil {
 		return
 	}
-	newData, err := ioutil.ReadAll(rc)
+	newData, err := io.ReadAll(rc)
 	rc.Close()
 	if err != nil {
 		return
@@ -171,7 +170,7 @@ func upgrade(url, exePath string, size uint) (err error) {
 
 	newPath := filepath.Join(updateDir, fmt.Sprintf(".%s.new", filepath.Base(exePath)))
 	color.Cyan("Save the new one to %v", newPath)
-	if err = ioutil.WriteFile(newPath, newData, 0755); err != nil {
+	if err = os.WriteFile(newPath, newData, 0755); err != nil {
 		return
 	}
 

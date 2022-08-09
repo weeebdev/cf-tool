@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"io/ioutil"
+	"os"
 
 	"cf-tool/client"
 	"cf-tool/config"
@@ -17,7 +17,7 @@ func Submit() (err error) {
 		return
 	}
 
-	bytes, err := ioutil.ReadFile(filename)
+	bytes, err := os.ReadFile(filename)
 	if err != nil {
 		return
 	}

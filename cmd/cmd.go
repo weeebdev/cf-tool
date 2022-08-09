@@ -3,7 +3,6 @@ package cmd
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -61,7 +60,7 @@ func getSampleID() (samples []string) {
 	if err != nil {
 		return
 	}
-	paths, err := ioutil.ReadDir(path)
+	paths, err := os.ReadDir(path)
 	if err != nil {
 		return
 	}
@@ -111,7 +110,7 @@ func getCode(filename string, templates []config.CodeTemplate) (codes []CodeList
 	if err != nil {
 		return
 	}
-	paths, err := ioutil.ReadDir(path)
+	paths, err := os.ReadDir(path)
 	if err != nil {
 		return
 	}

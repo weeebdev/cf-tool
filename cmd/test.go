@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -107,7 +106,7 @@ func judge(sampleID, command string) error {
 		}
 	}
 
-	b, err := ioutil.ReadFile(ansPath)
+	b, err := os.ReadFile(ansPath)
 	if err != nil {
 		b = []byte{}
 	}
@@ -119,7 +118,7 @@ func judge(sampleID, command string) error {
 	if out == ans {
 		state = color.New(color.FgGreen).Sprintf("Passed #%v", sampleID)
 	} else {
-		input, err := ioutil.ReadFile(inPath)
+		input, err := os.ReadFile(inPath)
 		if err != nil {
 			return err
 		}
