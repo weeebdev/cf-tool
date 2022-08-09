@@ -2,40 +2,46 @@ package client
 
 import (
 	"bytes"
+	"cf-tool/util"
 	"fmt"
-	"html"
+	"github.com/PuerkitoBio/goquery"
+	"github.com/fatih/color"
+	"github.com/k0kubun/go-ansi"
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"sync"
-
-	"cf-tool/util"
-
-	"github.com/k0kubun/go-ansi"
-
-	"github.com/fatih/color"
 )
 
 func findSample(body []byte) (input [][]byte, output [][]byte, err error) {
-	irg := regexp.MustCompile(`class="input"[\s\S]*?<pre>([\s\S]*?)</pre>`)
-	org := regexp.MustCompile(`class="output"[\s\S]*?<pre>([\s\S]*?)</pre>`)
-	a := irg.FindAllSubmatch(body, -1)
-	b := org.FindAllSubmatch(body, -1)
-	if a == nil || b == nil || len(a) != len(b) {
-		return nil, nil, fmt.Errorf("Cannot parse sample with input %v and output %v", len(a), len(b))
-	}
-	newline := regexp.MustCompile(`<[\s/br]+?>`)
-	filter := func(src []byte) []byte {
-		src = newline.ReplaceAll(src, []byte("\n"))
-		s := html.UnescapeString(string(src))
-		return []byte(strings.TrimSpace(s) + "\n")
-	}
-	for i := 0; i < len(a); i++ {
-		input = append(input, filter(a[i][1]))
-		output = append(output, filter(b[i][1]))
-	}
+	doc, err := goquery.NewDocumentFromReader(strings.NewReader(string(body)))
+	doc.Find(".sample-test .input").Each(func(_ int, s *goquery.Selection) {
+		// For each item found, get the title
+		inputCase := ""
+		s.Find("pre").Contents().Each(func(_ int, s1 *goquery.Selection) {
+			//fmt.Println(s1.Text())
+			inputCase += s1.Text() + "\n"
+		})
+		for strings.HasSuffix(inputCase, "\n\n") {
+			inputCase = inputCase[:len(inputCase)-1]
+		}
+		input = append(input, []byte(inputCase))
+	})
+	doc.Find(".sample-test .output").Each(func(_ int, s *goquery.Selection) {
+		// For each item found, get the title
+		outputCase := ""
+		s.Find("pre").Contents().Each(func(_ int, s1 *goquery.Selection) {
+			//fmt.Println(s1.Text())
+			outputCase += s1.Text() + "\n"
+		})
+		for strings.HasSuffix(outputCase, "\n\n") {
+			outputCase = outputCase[:len(outputCase)-1]
+		}
+		output = append(output, []byte(outputCase))
+
+	})
+
 	return
 }
 
