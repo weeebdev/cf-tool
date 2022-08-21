@@ -15,12 +15,6 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: 1.18
-    - name: Replace date string and version string
-      run: |
-        export VERSION=${{ github.ref_name }}
-        export BUILD_TIME=`TZ=":Asia/Shanghai" date`
-        sed "s/\$CI_VERSION/$VERSION/g" cf.go
-        sed "s/\$CI_BUILD_TIME/$BUILD_TIME/g" cf.go
     - name: Unittest
       run: |
         go test cf-tool/client
