@@ -20,8 +20,8 @@ jobs:
       run: |
         export VERSION=${{ github.ref_name }}
         export BUILD_TIME=`TZ=":Asia/Shanghai" date`
-        sed -i '' "s/\$CI_VERSION/$VERSION/g" cf.go
-        sed -i '' "s/\$CI_BUILD_TIME/$BUILD_TIME/g" cf.go
+        sed -i'.bak' "s/\$CI_VERSION/$VERSION/g" cf.go
+        sed -i'.bak' "s/\$CI_BUILD_TIME/$BUILD_TIME/g" cf.go
     - name: Build
       run: |
         mkdir -p output
