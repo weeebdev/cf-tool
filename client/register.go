@@ -58,13 +58,36 @@ func (c *Client) Register(info Info) (err error) {
 
 	msg, err := findMessage(body)
 	if err != nil {
-		return errors.New("Register failed")
+		return fmt.Errorf("register failed: %v", info.ContestID)
 	}
 	if !strings.Contains(msg, "successfully registered") {
 		return errors.New(msg)
 	}
 
-	color.Green("Registered")
+	color.Green(fmt.Sprintf("Register successfully: %v", info.ContestID))
+
+	return
+}
+
+// RegisterAll contests
+func (c *Client) RegisterAll(info Info) (err error) {
+	contests, err := c.CList(info)
+	if err != nil {
+		return err
+	}
+
+	for i, contest := range contests {
+		if (i > 9) {
+			break
+		}
+
+		if contest.Phase == "BEFORE" {
+			info.ContestID = fmt.Sprintf("%v", contest.ID)
+			if er := c.Register(info); er != nil {
+				color.Red(er.Error())
+			}
+		}
+	}
 
 	return
 }
