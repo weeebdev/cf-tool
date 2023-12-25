@@ -29,7 +29,9 @@ If you want to compete, the best command is "cf race"
 Usage:
   cf config
   cf submit [-f <file>] [<specifier>...]
+  cf register [all] [<specifier>...]
   cf list [<specifier>...]
+  cf clist
   cf parse [<specifier>...]
   cf gen [<alias>]
   cf test [<file>]
@@ -64,8 +66,11 @@ Examples:
   cf submit -f a.cpp 100 a
   cf submit contest 100 a
   cf submit gym 100001 a
+  cf register 100      Register to contest 100.
+  cf register all      Register to all upcoming contests.
   cf list              List all problems' stats of a contest.
   cf list 1119
+  cf clist             List top 10 recent contests.
   cf parse 100         Fetch all problems' samples of contest 100 into
                        "{cf}/{contest}/100/<problem-id>".
   cf parse gym 100001a
