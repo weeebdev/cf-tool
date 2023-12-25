@@ -210,6 +210,15 @@ func (info *Info) SubmitURL(host string) (string, error) {
 	return URL + "/submit", nil
 }
 
+// RegisterURL register url
+func (info *Info) RegisterURL(host string) (string, error) {
+	if info.ContestID == "" {
+		return info.errorContest()
+	}
+
+	return fmt.Sprintf(host + "/contestRegistration/%v", info.ContestID), nil
+}
+
 // OpenURL open url
 func (info *Info) OpenURL(host string) (string, error) {
 	switch info.ProblemType {
