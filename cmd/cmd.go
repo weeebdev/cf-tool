@@ -29,8 +29,10 @@ func Eval(opts docopt.Opts) error {
 		return Submit()
 	} else if Args.Register {
 		return Register()
-	}else if Args.List {
+	} else if Args.List {
 		return List()
+	} else if Args.CList {
+		return CList()
 	} else if Args.Parse {
 		return Parse()
 	} else if Args.Gen {

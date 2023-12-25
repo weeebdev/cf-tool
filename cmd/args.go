@@ -26,6 +26,7 @@ type ParsedArgs struct {
 	Submit    bool     `docopt:"submit"`
 	Register  bool     `docopt:"register"`
 	List      bool     `docopt:"list"`
+	CList     bool     `docopt:"clist"`
 	Parse     bool     `docopt:"parse"`
 	Gen       bool     `docopt:"gen"`
 	Test      bool     `docopt:"test"`

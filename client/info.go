@@ -90,6 +90,11 @@ func (info *Info) Path() string {
 	return path
 }
 
+// ContestListURL parse contest list url
+func (info *Info) ContestListURL(host string) (string, error) {
+	return host + "/api/contest.list", nil
+}
+
 // ProblemSetURL parse problem set url
 func (info *Info) ProblemSetURL(host string) (string, error) {
 	if info.ContestID == "" {

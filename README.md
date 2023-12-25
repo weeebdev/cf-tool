@@ -100,6 +100,7 @@ Usage:
   cf submit [-f <file>] [<specifier>...]
   cf register [<specifier>...]
   cf list [<specifier>...]
+  cf clist
   cf parse [<specifier>...]
   cf gen [<alias>]
   cf test [<file>]
@@ -139,6 +140,7 @@ Examples:
   cf register 100      Register contest 100.
   cf list              List all problems' stats of a contest.
   cf list 1119
+  cf clist             List top 10 recent contests.
   cf parse 100         Fetch all problems' samples of contest 100 into
                        "{cf}/{contest}/100/".
   cf parse gym 100001a
